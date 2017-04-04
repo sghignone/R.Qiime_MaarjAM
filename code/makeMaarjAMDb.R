@@ -1,12 +1,10 @@
 #Archaeosporomycetes  778
-#Glomeromycetes       28190
-#Paraglomeromycetes   588
+#Glomeromycetes       23631
+#Paraglomeromycetes   433
 
-#1. Correct biogeodata files
-#Currently, there are 46 empty fields after export
+#1. Correct biogeodata files #Currently, there are 46 empty fields after export
 #2. Export in CSV format, tab delimited
-#3. cat *.csv > maarjAM.biogeodata.csv
-#Merge CSV files
+#3. cat *.csv > maarjAM.biogeodata.csv #Merge CSV files
 #4. Open in Excell
 #5. Delete biogeodata header rows
 #6. Sort ascending by GenBank Accession Number, save
@@ -19,5 +17,11 @@
 
 #LOAD THE FILE 
 library("gdata")
-paraglom <- read.xls("data/raw/export_biogeo_Paraglomeromycetes.xls", sheet=1)
+paraglom <- read.xls("data/raw/export_biogeo_Paraglomeromycetes.xls", sheet = 1)
+archaeo <- read.xls("data/raw/export_biogeo_Archaeosporomycetes.xls", sheet = 1)
+
+all <- rbind(paraglom,archaeo)
+
+
+
 paraglom.sorted <- paraglom[order(paraglom$GenBank.accession.number),]
