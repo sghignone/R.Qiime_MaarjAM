@@ -29,9 +29,11 @@ all <- rbind(paraglom,archaeo)
 
 library("Biostrings")
 paraglom.seq <- readBStringSet("data/raw/sequence_export_Paraglomeromycetes.txt","fasta") #433
+names(paraglom.seq)<-gsub("gb\\|", "", names(paraglom.seq))
 archaeo.seq <- readBStringSet("data/raw/sequence_export_Archaeosporomycetes.txt", "fasta") #778
+names(archaeo.seq)<-gsub("gb\\|", "", names(archaeo.seq))
 glomerom.seq <- readBStringSet("data/raw/sequence_export_Glomeromycetes.txt", "fasta") #23631
+names(glomerom.seq)<-gsub("gb\\|", "", names(glomerom.seq))
 
-gsub(paste0("gb","|"), "", names(glomerom.seq))
 
 names(glomerom.seq)
