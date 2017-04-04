@@ -19,9 +19,17 @@
 library("gdata")
 paraglom <- read.xls("data/raw/export_biogeo_Paraglomeromycetes.xls", sheet = 1)
 archaeo <- read.xls("data/raw/export_biogeo_Archaeosporomycetes.xls", sheet = 1)
+#glomerom <- read.xls("data/raw/", sheet = 1)
 
 all <- rbind(paraglom,archaeo)
+all.ordered <- all[order(all$GenBank.accession.number),]
 
 
+#paraglom.sorted <- paraglom[order(paraglom$GenBank.accession.number),]
 
-paraglom.sorted <- paraglom[order(paraglom$GenBank.accession.number),]
+library(Biostrings)
+paraglom.seq <- readBStringSet("data/raw/sequence_export_Paraglomeromycetes.txt","fasta")
+archaeo.seq <- readBStringSet("data/raw/sequence_export_Archaeosporomycetes.txt", "fasta")
+glomerom.seq <- readBStringSet("data/raw/sequence_export_Glomeromycetes.txt", "fasta")
+
+paraglom.s
