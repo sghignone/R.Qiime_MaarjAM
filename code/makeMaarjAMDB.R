@@ -9,15 +9,20 @@ library("Biostrings")
 ##PART ONE##
 #PREPARATION OD THE ID to TAXONOMY FILE
 #LOAD THE FILES 
-paraglom <- read.xls("data/raw/export_biogeo_Paraglomeromycetes.xls", sheet = 1)
-archaeo <- read.xls("data/raw/export_biogeo_Archaeosporomycetes.xls", sheet = 1)
+paraglom <- read.xls("../data/raw/export_biogeo_Paraglomeromycetes.xls", sheet = 1)
+archaeo <- read.xls("../data/raw/export_biogeo_Archaeosporomycetes.xls", sheet = 1)
 #glomerom <- read.xls("data/raw/", sheet = 1)
+
 #COMBINE THE DATASETS
 all <- rbind(paraglom,archaeo)
+
 #SORT DATASET BY GenBank.accession.number
-all.ordered <- all[order(as.character(all[,2])),]
-identical(all, all.ordered)
-#[TODO] skip  YYY00000 entries (and duplicates)
+all.ordered <- all[order(as.character(all[,"GenBank.accession.number"])),]
+
+# Skip  YYY00000 entries (and duplicates)
+all.ordered <- all.ordered[all.ordered$GenBank.accession.number != "YYY00000", ]
+all.ordered <- all.ordered[unique(all.ordered$GenBank.accession.number), ]
+
 #[TODO] take GenBank.accession.number, extract taxonomy, format according to 
 # awk -F"\t" '{if ($8 !~ /^ *$/) {print $2"\tFungi;Glomeromycota;"$3";"$4";"$5";"$6"_"$7"_"$8} else {print $2"\tFungi;Glomeromycota;"$3";"$4";"$5";"$6"_"$7}}' maarjAM.biogeodata.csv > maarjAM.id_to_taxonomy.txt
 
