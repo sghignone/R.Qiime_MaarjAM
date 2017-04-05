@@ -43,6 +43,10 @@ names(archaeo.seq)<-gsub("gb\\|", "", names(archaeo.seq))
 glomerom.seq <- readBStringSet("data/raw/sequence_export_Glomeromycetes.txt", "fasta") #23631
 names(glomerom.seq)<-gsub("gb\\|", "", names(glomerom.seq))
 
-# [TO DO] merge sequences, order by GenBank.accession.number to match ID-2-TAX file, output the fasta file [TO DO]
-test.seq <- xscat(BStringSet(paraglom.seq),BStringSet(archaeo.seq))
-test.seq <- xscat("paraglom.seq","archaeo.seq")
+#append(x, values, after=length(x)), x and values are XStringSet objects
+#append
+all.seq <- append(paraglom.seq, c(archaeo.seq,glomerom.seq), after=length(paraglom.seq))
+#order
+all.seq <- all.seq[order(as.character((names(all.seq))))]
+#save
+
