@@ -1,3 +1,7 @@
+
+library("gdata")
+library("Biostrings")
+
 #Archaeosporomycetes  778
 #Glomeromycetes       23631
 #Paraglomeromycetes   433
@@ -15,19 +19,23 @@
 #Generate ID-2-TX file with 6 levels descriptors
 #8. Open in text Editor and delete YYY00000 entries (and duplicates)
 
-#LOAD THE FILE 
-library("gdata")
+##PART ONE##
+#PREPARATION OD THE ID to TAXONOMY FILE
+#LOAD THE FILES 
 paraglom <- read.xls("data/raw/export_biogeo_Paraglomeromycetes.xls", sheet = 1)
 archaeo <- read.xls("data/raw/export_biogeo_Archaeosporomycetes.xls", sheet = 1)
 #glomerom <- read.xls("data/raw/", sheet = 1)
-
+#COMBINE THE DATASETS
 all <- rbind(paraglom,archaeo)
+#SORT DATASET BY GenBank.accession.number
+all.ordered <- all[order(as.character(all[,2])),]
+identical(all, all.ordered)
 
-[da finire]
+#[TO DO] take GenBank.accession.number, extract taxonomy, format according to 
+# awk -F"\t" '{if ($8 !~ /^ *$/) {print $2"\tFungi;Glomeromycota;"$3";"$4";"$5";"$6"_"$7"_"$8} else {print $2"\tFungi;Glomeromycota;"$3";"$4";"$5";"$6"_"$7}}' maarjAM.biogeodata.csv > maarjAM.id_to_taxonomy.txt
 
-#paraglom.sorted <- paraglom[order(paraglom$GenBank.accession.number),]
-
-library("Biostrings")
+##PART TWO##
+#PREPARATION OD THE FASTA FILE
 paraglom.seq <- readBStringSet("data/raw/sequence_export_Paraglomeromycetes.txt","fasta") #433
 names(paraglom.seq)<-gsub("gb\\|", "", names(paraglom.seq))
 archaeo.seq <- readBStringSet("data/raw/sequence_export_Archaeosporomycetes.txt", "fasta") #778
@@ -35,5 +43,6 @@ names(archaeo.seq)<-gsub("gb\\|", "", names(archaeo.seq))
 glomerom.seq <- readBStringSet("data/raw/sequence_export_Glomeromycetes.txt", "fasta") #23631
 names(glomerom.seq)<-gsub("gb\\|", "", names(glomerom.seq))
 
-
-names(glomerom.seq)
+# [TO DO] merge sequences, order by GenBank.accession.number to match ID-2-TAX file, output the fasta file [TO DO]
+test.seq <- xscat(BStringSet(paraglom.seq),BStringSet(archaeo.seq))
+test.seq <- xscat("paraglom.seq","archaeo.seq")
