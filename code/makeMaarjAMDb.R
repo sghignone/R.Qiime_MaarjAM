@@ -42,11 +42,12 @@ archaeo.seq <- readBStringSet("data/raw/sequence_export_Archaeosporomycetes.txt"
 names(archaeo.seq)<-gsub("gb\\|", "", names(archaeo.seq))
 glomerom.seq <- readBStringSet("data/raw/sequence_export_Glomeromycetes.txt", "fasta") #23631
 names(glomerom.seq)<-gsub("gb\\|", "", names(glomerom.seq))
-
-#append(x, values, after=length(x)), x and values are XStringSet objects
 #append
+#append(x, values, after=length(x)), x and values are XStringSet objects
 all.seq <- append(paraglom.seq, c(archaeo.seq,glomerom.seq), after=length(paraglom.seq))
 #order
-all.seq <- all.seq[order(as.character((names(all.seq))))]
-#save
-
+all.ordered.seq <- all.seq[order(as.character((names(all.seq))))]
+#filter out  YYY00000 - 788 values)
+all.ordered.good.seq <- all.ordered.seq[names(all.ordered.seq) != "YYY00000"]
+#save (da aggiungere skip su YYY00000 - 788 values)
+writeXStringSet(all.ordered.good.seq, "results/maarjAM.2017.fasta", format="fasta")
