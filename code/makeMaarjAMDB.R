@@ -9,8 +9,8 @@ library("Biostrings")
 ##PART ONE##
 #PREPARATION OD THE ID to TAXONOMY FILE
 #LOAD THE FILES 
-paraglom <- read.xls("data/raw/export_biogeo_Paraglomeromycetes.xls", sheet = 1, fileEncoding="latin1")
-archaeo <- read.xls("data/raw/export_biogeo_Archaeosporomycetes.xls", sheet = 1, fileEncoding="latin1")
+paraglom <- read.xls("../data/raw/export_biogeo_Paraglomeromycetes.xls", sheet = 1, fileEncoding="latin1")
+archaeo <- read.xls("../data/raw/export_biogeo_Archaeosporomycetes.xls", sheet = 1, fileEncoding="latin1")
 #glomerom.sanger <- read.xls("data/raw/export_biogeo_Gomeromycetes_sanger.xls", sheet = 1, fileEncoding="latin1")
 
 #COMBINE THE DATASETS
@@ -32,12 +32,11 @@ head(all.ordered)
 
 
 #[TODO] take GenBank.accession.number, extract taxonomy, format according to 
-all.ordered_taxo <- NULL
+all.ordered_taxo <- data.frame()
 for (i in 1:nrow(all.ordered)){
 	if (all.ordered$VTX[i] != ""){
-		all.ordered_taxo[i] <- paste0(all.ordered[i, "GenBank.accession.number"],
-									  "    ",
-									  "Fungi;Glomeromycota;",
+		all.ordered_taxo[i, 1] <- all.ordered[i, "GenBank.accession.number"] 
+		all.ordered_taxo[i, 2] <- paste0("Fungi;Glomeromycota;",
 									  all.ordered[i, "Fungal.class"],
 									  ";",
 									  all.ordered[i, "Fungal.order"],
@@ -51,9 +50,8 @@ for (i in 1:nrow(all.ordered)){
 									  all.ordered[i, "VTX"]
 									  )
 	} else {
-		all.ordered_taxo[i] <- paste0(all.ordered[i, "GenBank.accession.number"],
-									  "    ",
-									  "Fungi;Glomeromycota;",
+		all.ordered_taxo[i, 1] <- all.ordered[i, "GenBank.accession.number"] 
+		all.ordered_taxo[i, 2] <- paste0("Fungi;Glomeromycota;",
 									  all.ordered[i, "Fungal.class"],
 									  ";",
 									  all.ordered[i, "Fungal.order"],
@@ -64,12 +62,12 @@ for (i in 1:nrow(all.ordered)){
 									  "_",
 									  all.ordered[i, "Fungal.species"]
 									  )
-	}
+		}
 }
 
-head(all.ordered_taxo)
-# awk -F"\t" '{if ($8 !~ /^ *$/) {print $2"\tFungi;Glomeromycota;"$3";"$4";"$5";"$6"_"$7"_"$8} else {print $2"\tFungi;Glomeromycota;"$3";"$4";"$5";"$6"_"$7}}' maarjAM.biogeodata.csv > maarjAM.id_to_taxonomy.txt
-
+# Save table to file
+write.table(all.ordered_taxo, "../data/clean/all_ordered_taxo.txt", sep = "\t",
+			row.names = FALSE, col.names = FALSE, quote = FALSE)
 
 
 ##PART TWO##
