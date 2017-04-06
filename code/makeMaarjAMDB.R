@@ -31,7 +31,7 @@ dim(all.ordered)
 head(all.ordered)
 
 
-#[TODO] take GenBank.accession.number, extract taxonomy, format according to 
+#Take GenBank.accession.number, extract taxonomy, format  
 all.ordered_taxo <- NULL
 for (i in 1:nrow(all.ordered)){
 	if (all.ordered$VTX[i] != ""){
@@ -68,8 +68,6 @@ for (i in 1:nrow(all.ordered)){
 }
 
 head(all.ordered_taxo)
-# awk -F"\t" '{if ($8 !~ /^ *$/) {print $2"\tFungi;Glomeromycota;"$3";"$4";"$5";"$6"_"$7"_"$8} else {print $2"\tFungi;Glomeromycota;"$3";"$4";"$5";"$6"_"$7}}' maarjAM.biogeodata.csv > maarjAM.id_to_taxonomy.txt
-
 
 
 ##PART TWO##
