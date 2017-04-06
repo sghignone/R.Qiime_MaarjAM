@@ -15,20 +15,21 @@ archaeo <- read.xls("data/raw/export_biogeo_Archaeosporomycetes.xls", sheet = 1,
 
 #COMBINE THE DATASETS
 #all <- rbind(paraglom,archaeo,glomerom.sanger)
-
 all <- rbind(paraglom,archaeo)
+dim(all)
+#Check for duplicated entries and remove them
+all[duplicated(all$GenBank.accession.number), ]
+all <- all[unique(all$GenBank.accession.number), ]
+dim(all)
+# Skip  YYY00000 entries
+all <- all[all$GenBank.accession.number != "YYY00000", ]
 dim(all)
 
 #SORT DATASET BY GenBank.accession.number
 all.ordered <- all[order(as.character(all[,"GenBank.accession.number"])),]
 dim(all.ordered)
-#Check for duplicated entries
-all.ordered[duplicated(all.ordered$GenBank.accession.number), ]
-# Skip  YYY00000 entries (and duplicates)
-all.ordered <- all.ordered[all.ordered$GenBank.accession.number != "YYY00000", ]
-dim(all.ordered)
-all.ordered <- all.ordered[unique(all.ordered$GenBank.accession.number), ]
-dim(all.ordered)
+head(all.ordered)
+
 
 #[TODO] take GenBank.accession.number, extract taxonomy, format according to 
 all.ordered_taxo <- NULL
@@ -77,8 +78,8 @@ paraglom.seq <- readBStringSet("data/raw/sequence_export_Paraglomeromycetes.txt"
 names(paraglom.seq)<-gsub("gb\\|", "", names(paraglom.seq))
 archaeo.seq <- readBStringSet("data/raw/sequence_export_Archaeosporomycetes.txt", "fasta") #778
 names(archaeo.seq)<-gsub("gb\\|", "", names(archaeo.seq))
-glomerom.seq <- readBStringSet("data/raw/sequence_export_Glomeromycetes.txt", "fasta") #23631 (454: 16985 / Sanger: 6646)
-names(glomerom.seq)<-gsub("gb\\|", "", names(glomerom.seq))
+#glomerom.seq <- readBStringSet("data/raw/sequence_export_Glomeromycetes.txt", "fasta") #23631 (454: 16985 / Sanger: 6646)
+#names(glomerom.seq)<-gsub("gb\\|", "", names(glomerom.seq))
 #append
 #append(x, values, after=length(x)), x and values are XStringSet objects
 #all.seq <- append(paraglom.seq, c(archaeo.seq,glomerom.seq), after=length(paraglom.seq))
