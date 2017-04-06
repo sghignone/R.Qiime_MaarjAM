@@ -81,7 +81,7 @@ glomerom.seq <- readBStringSet("data/raw/sequence_export_Glomeromycetes.txt", "f
 names(glomerom.seq)<-gsub("gb\\|", "", names(glomerom.seq))
 #append
 #append(x, values, after=length(x)), x and values are XStringSet objects
-all.seq <- append(paraglom.seq, c(archaeo.seq,glomerom.seq), after=length(paraglom.seq))
+#all.seq <- append(paraglom.seq, c(archaeo.seq,glomerom.seq), after=length(paraglom.seq))
 all.seq <- append(paraglom.seq,archaeo.seq,after=length(paraglom.seq))
 #order
 all.ordered.seq <- all.seq[order(as.character((names(all.seq))))]
