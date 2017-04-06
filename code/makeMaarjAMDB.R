@@ -9,8 +9,8 @@ library("Biostrings")
 ##PART ONE##
 #PREPARATION OD THE ID to TAXONOMY FILE
 #LOAD THE FILES 
-paraglom <- read.xls("../data/raw/export_biogeo_Paraglomeromycetes.xls", sheet = 1, fileEncoding="latin1")
-archaeo <- read.xls("../data/raw/export_biogeo_Archaeosporomycetes.xls", sheet = 1, fileEncoding="latin1")
+paraglom <- read.xls("data/raw/export_biogeo_Paraglomeromycetes.xls", sheet = 1, fileEncoding="latin1")
+archaeo <- read.xls("data/raw/export_biogeo_Archaeosporomycetes.xls", sheet = 1, fileEncoding="latin1")
 #glomerom.sanger <- read.xls("data/raw/export_biogeo_Gomeromycetes_sanger.xls", sheet = 1, fileEncoding="latin1")
 
 #COMBINE THE DATASETS
@@ -31,8 +31,8 @@ dim(all.ordered)
 head(all.ordered)
 
 
-#[TODO] take GenBank.accession.number, extract taxonomy, format according to 
-all.ordered_taxo <- data.frame()
+#Take GenBank.accession.number, extract taxonomy, format  
+all.ordered_taxo <- NULL
 for (i in 1:nrow(all.ordered)){
 	if (all.ordered$VTX[i] != ""){
 		all.ordered_taxo[i, 1] <- all.ordered[i, "GenBank.accession.number"] 
