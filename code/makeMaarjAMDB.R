@@ -9,13 +9,14 @@ library("Biostrings")
 ##PART ONE##
 #PREPARATION OD THE ID to TAXONOMY FILE
 #LOAD THE FILES 
-paraglom <- read.xls("../data/raw/export_biogeo_Paraglomeromycetes.xls", sheet = 1, fileEncoding="latin1")
-archaeo <- read.xls("../data/raw/export_biogeo_Archaeosporomycetes.xls", sheet = 1, fileEncoding="latin1")
-#glomerom.sanger <- read.xls("data/raw/export_biogeo_Gomeromycetes_sanger.xls", sheet = 1, fileEncoding="latin1")
+paraglom <- read.xls("data/raw/export_biogeo_Paraglomeromycetes.xls", sheet = 1, fileEncoding="latin1")
+archaeo <- read.xls("data/raw/export_biogeo_Archaeosporomycetes.xls", sheet = 1, fileEncoding="latin1")
+glomerom.sanger <- read.xls("data/raw/export_biogeo_Gomeromycetes_sanger.xls", sheet = 1, fileEncoding="latin1")
 
 #COMBINE THE DATASETS
-#all <- rbind(paraglom,archaeo,glomerom.sanger)
-all <- rbind(paraglom,archaeo)
+#all <- rbind(paraglom,archaeo) #For testing
+all <- rbind(paraglom,archaeo,glomerom.sanger) #For production
+
 dim(all)
 #Check for duplicated entries and remove them
 all[duplicated(all$GenBank.accession.number), ]
@@ -75,12 +76,12 @@ paraglom.seq <- readBStringSet("data/raw/sequence_export_Paraglomeromycetes.txt"
 names(paraglom.seq)<-gsub("gb\\|", "", names(paraglom.seq))
 archaeo.seq <- readBStringSet("data/raw/sequence_export_Archaeosporomycetes.txt", "fasta") #778
 names(archaeo.seq)<-gsub("gb\\|", "", names(archaeo.seq))
-#glomerom.seq <- readBStringSet("data/raw/sequence_export_Glomeromycetes.txt", "fasta") #23631 (454: 16985 / Sanger: 6646)
-#names(glomerom.seq)<-gsub("gb\\|", "", names(glomerom.seq))
+glomerom.seq <- readBStringSet("data/raw/sequence_export_Glomeromycetes_sanger.txt", "fasta") #23631 (454: 16985 / Sanger: 6646)
+names(glomerom.seq)<-gsub("gb\\|", "", names(glomerom.seq))
 #append
 #append(x, values, after=length(x)), x and values are XStringSet objects
-#all.seq <- append(paraglom.seq, c(archaeo.seq,glomerom.seq), after=length(paraglom.seq))
-all.seq <- append(paraglom.seq,archaeo.seq,after=length(paraglom.seq))
+#all.seq <- append(paraglom.seq,archaeo.seq,after=length(paraglom.seq)) #For testing
+all.seq <- append(paraglom.seq, c(archaeo.seq,glomerom.seq), after=length(paraglom.seq)) #For production
 #order
 all.ordered.seq <- all.seq[order(as.character((names(all.seq))))]
 #filter out  YYY00000 - 788 values)
