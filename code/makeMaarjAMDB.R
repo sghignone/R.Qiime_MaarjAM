@@ -117,7 +117,12 @@ for (i in 1:length(universe)){
 # Venn Diagram
 vennDiagram(tmp, main = "ALL")
 
-# Double check the absense of the 10 sequences
-tmp2 <- rownames(tmp[which(tmp$seq ==1 & tmp$taxo != 1), ])
-all.ordered_taxo[which(all.ordered_taxo$V1 %in% tmp2), ]
+## TEST UNIT
+x1 <- as.character(sample(paraglom[paraglom$GenBank.accession.number != "YYY00000", 2], 10))
+x2 <- as.character(sample(archaeo[archaeo$GenBank.accession.number != "YYY00000", 2], 10))
+x3 <- as.character(sample(glomerom.sanger[glomerom.sanger$GenBank.accession.number != "YYY00000", 2], 10))
+
+all(all.ordered.seq[names(all.ordered.seq) %in% x1,] == glomerom.seq[names(glomerom.seq) %in% x1,])
+all(all.ordered.seq[names(all.ordered.seq) %in% x2,] == glomerom.seq[names(glomerom.seq) %in% x2,])
+all(all.ordered.seq[names(all.ordered.seq) %in% x3,] == glomerom.seq[names(glomerom.seq) %in% x3,])
 
