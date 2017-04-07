@@ -120,3 +120,39 @@ vennDiagram(tmp)
 # Double check the absense of the 10 sequences
 tmp2 <- rownames(tmp[which(tmp$seq ==1 & tmp$taxo != 1), ])
 all.ordered_taxo[which(all.ordered_taxo$V1 %in% tmp2), ]
+
+##############################
+# Remove duplicates
+paraglom <- unique(as.character(paraglom[,2]))
+paraglom <- paraglom[paraglom != "YYY00000"]
+paraglom.seq <- paraglom.seq[names(paraglom.seq) != "YYY00000"]
+
+# Do they have the same lenght?
+length(paraglom) == length(names(paraglom.seq)) # TRUE
+
+
+
+names(paraglom.seq)[which(!(names(paraglom.seq) %in% paraglom))]
+paraglom[which(!(paraglom %in% names(paraglom.seq)))]
+
+# Load limma library
+library(limma)
+
+# Create protein universe
+universe <- unique(c(names(paraglom.seq), paraglom)) 
+
+# Create data.frame for venn diagram
+tmp <- data.frame(seq = rep(0, length(universe)), taxo = rep(0, length(universe)))
+rownames(tmp) <- universe
+for (i in 1:length(universe)){
+	if (universe[i] %in% names(paraglom.seq)) {
+		tmp[i, 1] <- 1
+	}
+	if (universe[i] %in% paraglom){
+		tmp[i, 2] <- 1
+	}
+}
+
+# Venn Diagram
+vennDiagram(tmp)
+
