@@ -87,7 +87,7 @@ all.seq <- all.seq[names(all.seq) != "YYY00000"]
 #order
 all.ordered.seq <- all.seq[order(as.character((names(all.seq))))]
 #save (da aggiungere skip su YYY00000 - 788 values)
-writeXStringSet(all.ordered.good.seq, "results/maarjAM.2017.fasta", format="fasta")
+writeXStringSet(all.ordered.seq, "results/maarjAM.2017.fasta", format="fasta")
 
 
 
@@ -115,7 +115,7 @@ for (i in 1:length(universe)){
 }
 
 # Venn Diagram
-vennDiagram(tmp)
+vennDiagram(tmp, main = "ALL")
 
 # Double check the absense of the 10 sequences
 tmp2 <- rownames(tmp[which(tmp$seq ==1 & tmp$taxo != 1), ])
@@ -154,7 +154,7 @@ for (i in 1:length(universe)){
 }
 
 # Venn Diagram
-vennDiagram(tmp)
+vennDiagram(tmp, main = "Paraglom")
 
 
 ##############################
@@ -188,7 +188,7 @@ for (i in 1:length(universe)){
 }
 
 # Venn Diagram
-vennDiagram(tmp)
+vennDiagram(tmp, main = "Archeao")
 
 
 ##############################
@@ -222,5 +222,5 @@ for (i in 1:length(universe)){
 }
 
 # Venn Diagram
-vennDiagram(tmp)
+vennDiagram(tmp, main = "Glomerom")
 
