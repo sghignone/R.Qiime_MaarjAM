@@ -32,41 +32,40 @@ head(all.ordered)
 
 
 #Take GenBank.accession.number, extract taxonomy, format  
-all.ordered_taxo <- NULL
+all.ordered_taxo <- data.frame()
 for (i in 1:nrow(all.ordered)){
-	if (all.ordered$VTX[i] != ""){
-		all.ordered_taxo[i, 1] <- all.ordered[i, "GenBank.accession.number"] 
-		all.ordered_taxo[i, 2] <- paste0("Fungi;Glomeromycota;",
-									  all.ordered[i, "Fungal.class"],
-									  ";",
-									  all.ordered[i, "Fungal.order"],
-									  ";",
-									  all.ordered[i, "Fungal.family"],
-									  ";",
-									  all.ordered[i, "Fungal.genus"],
-									  "_",
-									  all.ordered[i, "Fungal.species"],
-									  "_",
-									  all.ordered[i, "VTX"]
-									  )
-	} else {
-		all.ordered_taxo[i, 1] <- all.ordered[i, "GenBank.accession.number"] 
-		all.ordered_taxo[i, 2] <- paste0("Fungi;Glomeromycota;",
-									  all.ordered[i, "Fungal.class"],
-									  ";",
-									  all.ordered[i, "Fungal.order"],
-									  ";",
-									  all.ordered[i, "Fungal.family"],
-									  ";",
-									  all.ordered[i, "Fungal.genus"],
-									  "_",
-									  all.ordered[i, "Fungal.species"]
-									  )
-		}
+  if (all.ordered$VTX[i] != ""){
+    all.ordered_taxo[i, 1] <- all.ordered[i, "GenBank.accession.number"] 
+    all.ordered_taxo[i, 2] <- paste0("Fungi;Glomeromycota;",
+                                     all.ordered[i, "Fungal.class"],
+                                     ";",
+                                     all.ordered[i, "Fungal.order"],
+                                     ";",
+                                     all.ordered[i, "Fungal.family"],
+                                     ";",
+                                     all.ordered[i, "Fungal.genus"],
+                                     "_",
+                                     all.ordered[i, "Fungal.species"],
+                                     "_",
+                                     all.ordered[i, "VTX"]
+    )
+  } else {
+    all.ordered_taxo[i, 1] <- all.ordered[i, "GenBank.accession.number"] 
+    all.ordered_taxo[i, 2] <- paste0("Fungi;Glomeromycota;",
+                                     all.ordered[i, "Fungal.class"],
+                                     ";",
+                                     all.ordered[i, "Fungal.order"],
+                                     ";",
+                                     all.ordered[i, "Fungal.family"],
+                                     ";",
+                                     all.ordered[i, "Fungal.genus"],
+                                     "_",
+                                     all.ordered[i, "Fungal.species"]
+    )
+  }
 }
-
 # Save table to file
-write.table(all.ordered_taxo, "../data/clean/all_ordered_taxo.txt", sep = "\t",
+write.table(all.ordered_taxo, "results/all_ordered_taxo.txt", sep = "\t",
 			row.names = FALSE, col.names = FALSE, quote = FALSE)
 
 
