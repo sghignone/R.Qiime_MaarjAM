@@ -9,8 +9,8 @@ library("Biostrings")
 ##PART ONE##
 #PREPARATION OD THE ID to TAXONOMY FILE
 #LOAD THE FILES 
-paraglom <- read.xls("data/raw/export_biogeo_Paraglomeromycetes.xls", sheet = 1, fileEncoding="latin1")
-archaeo <- read.xls("data/raw/export_biogeo_Archaeosporomycetes.xls", sheet = 1, fileEncoding="latin1")
+paraglom <- read.xls("../data/raw/export_biogeo_Paraglomeromycetes.xls", sheet = 1, fileEncoding="latin1")
+archaeo <- read.xls("../data/raw/export_biogeo_Archaeosporomycetes.xls", sheet = 1, fileEncoding="latin1")
 #glomerom.sanger <- read.xls("data/raw/export_biogeo_Gomeromycetes_sanger.xls", sheet = 1, fileEncoding="latin1")
 
 #COMBINE THE DATASETS
