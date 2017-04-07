@@ -156,3 +156,38 @@ for (i in 1:length(universe)){
 # Venn Diagram
 vennDiagram(tmp)
 
+
+##############################
+# Remove duplicates
+archaeo <- unique(as.character(archaeo[,2]))
+archaeo <- archaeo[archaeo != "YYY00000"]
+archaeo.seq <- archaeo.seq[names(archaeo.seq) != "YYY00000"]
+
+# Do they have the same lenght?
+length(archaeo) == length(names(archaeo.seq)) # TRUE
+
+names(archaeo.seq)[which(!(names(archaeo.seq) %in% archaeo))]
+archaeo[which(!(archaeo %in% names(archaeo.seq)))]
+
+# Load limma library
+library(limma)
+
+# Create protein universe
+universe <- unique(c(names(archaeo.seq), archaeo)) 
+
+# Create data.frame for venn diagram
+tmp <- data.frame(seq = rep(0, length(universe)), taxo = rep(0, length(universe)))
+rownames(tmp) <- universe
+for (i in 1:length(universe)){
+	if (universe[i] %in% names(archaeo.seq)) {
+		tmp[i, 1] <- 1
+	}
+	if (universe[i] %in% archaeo){
+		tmp[i, 2] <- 1
+	}
+}
+
+# Venn Diagram
+vennDiagram(tmp)
+
+
