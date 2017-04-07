@@ -12,7 +12,7 @@ library("Biostrings")
 paraglom <- read.xls("data/raw/export_biogeo_Paraglomeromycetes.xls", sheet = 1, fileEncoding="latin1")
 archaeo <- read.xls("data/raw/export_biogeo_Archaeosporomycetes.xls", sheet = 1, fileEncoding="latin1")
 glomerom.sanger <- read.xls("data/raw/export_biogeo_Gomeromycetes_sanger.xls", sheet = 1, fileEncoding="latin1")
-
+dim(glomerom.sanger)
 #COMBINE THE DATASETS
 #all <- rbind(paraglom,archaeo) #For testing
 all <- rbind(paraglom,archaeo,glomerom.sanger) #For production
@@ -23,6 +23,11 @@ all[duplicated(all$GenBank.accession.number), ]
 all <- all[unique(all$GenBank.accession.number), ]
 dim(all)
 # Skip  YYY00000 entries
+#count
+length(which(paraglom$GenBank.accession.number == "YYY00000"))
+length(which(archaeo$GenBank.accession.number == "YYY00000"))
+length(which(glomerom.sanger$GenBank.accession.number == "YYY00000"))
+#skip
 all <- all[all$GenBank.accession.number != "YYY00000", ]
 dim(all)
 
@@ -84,7 +89,7 @@ names(glomerom.seq)<-gsub("gb\\|", "", names(glomerom.seq))
 all.seq <- append(paraglom.seq, c(archaeo.seq,glomerom.seq), after=length(paraglom.seq)) #For production
 #order
 all.ordered.seq <- all.seq[order(as.character((names(all.seq))))]
-#filter out  YYY00000 - 788 values)
+#filter out  YYY00000 - Archaeo=0; Paraglom=1;GlomTot=787;GlomSanger=391)
 all.ordered.good.seq <- all.ordered.seq[names(all.ordered.seq) != "YYY00000"]
-#save (da aggiungere skip su YYY00000 - 788 values)
+#save
 writeXStringSet(all.ordered.good.seq, "results/maarjAM.2017.fasta", format="fasta")
