@@ -191,3 +191,36 @@ for (i in 1:length(universe)){
 vennDiagram(tmp)
 
 
+##############################
+# Remove duplicates
+glomerom <- unique(as.character(glomerom.sanger[,2]))
+glomerom <- glomerom[glomerom != "YYY00000"]
+glomerom.seq <- glomerom.seq[names(glomerom.seq) != "YYY00000"]
+
+# Do they have the same lenght?
+length(glomerom) == length(names(glomerom.seq)) # TRUE
+
+names(glomerom.seq)[which(!(names(glomerom.seq) %in% glomerom))]
+glomerom[which(!(glomerom %in% names(glomerom.seq)))]
+
+# Load limma library
+library(limma)
+
+# Create protein universe
+universe <- unique(c(names(glomerom.seq), glomerom)) 
+
+# Create data.frame for venn diagram
+tmp <- data.frame(seq = rep(0, length(universe)), taxo = rep(0, length(universe)))
+rownames(tmp) <- universe
+for (i in 1:length(universe)){
+	if (universe[i] %in% names(glomerom.seq)) {
+		tmp[i, 1] <- 1
+	}
+	if (universe[i] %in% glomerom){
+		tmp[i, 2] <- 1
+	}
+}
+
+# Venn Diagram
+vennDiagram(tmp)
+
