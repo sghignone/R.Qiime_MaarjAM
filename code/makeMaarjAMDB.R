@@ -19,8 +19,8 @@ all <- rbind(paraglom,archaeo,glomerom.sanger) #For production
 
 dim(all)
 #Check for duplicated entries and remove them
-all[duplicated(all$GenBank.accession.number), ]
-all <- all[unique(all$GenBank.accession.number), ]
+all[duplicated(all$GenBank.accession.number), ][,2]
+all <- all[!duplicated(all$GenBank.accession.number), ]
 dim(all)
 # Skip  YYY00000 entries
 all <- all[all$GenBank.accession.number != "YYY00000", ]
@@ -120,107 +120,4 @@ vennDiagram(tmp, main = "ALL")
 # Double check the absense of the 10 sequences
 tmp2 <- rownames(tmp[which(tmp$seq ==1 & tmp$taxo != 1), ])
 all.ordered_taxo[which(all.ordered_taxo$V1 %in% tmp2), ]
-
-##############################
-# Remove duplicates
-paraglom <- unique(as.character(paraglom[,2]))
-paraglom <- paraglom[paraglom != "YYY00000"]
-paraglom.seq <- paraglom.seq[names(paraglom.seq) != "YYY00000"]
-
-# Do they have the same lenght?
-length(paraglom) == length(names(paraglom.seq)) # TRUE
-
-
-
-names(paraglom.seq)[which(!(names(paraglom.seq) %in% paraglom))]
-paraglom[which(!(paraglom %in% names(paraglom.seq)))]
-
-# Load limma library
-library(limma)
-
-# Create protein universe
-universe <- unique(c(names(paraglom.seq), paraglom)) 
-
-# Create data.frame for venn diagram
-tmp <- data.frame(seq = rep(0, length(universe)), taxo = rep(0, length(universe)))
-rownames(tmp) <- universe
-for (i in 1:length(universe)){
-	if (universe[i] %in% names(paraglom.seq)) {
-		tmp[i, 1] <- 1
-	}
-	if (universe[i] %in% paraglom){
-		tmp[i, 2] <- 1
-	}
-}
-
-# Venn Diagram
-vennDiagram(tmp, main = "Paraglom")
-
-
-##############################
-# Remove duplicates
-archaeo <- unique(as.character(archaeo[,2]))
-archaeo <- archaeo[archaeo != "YYY00000"]
-archaeo.seq <- archaeo.seq[names(archaeo.seq) != "YYY00000"]
-
-# Do they have the same lenght?
-length(archaeo) == length(names(archaeo.seq)) # TRUE
-
-names(archaeo.seq)[which(!(names(archaeo.seq) %in% archaeo))]
-archaeo[which(!(archaeo %in% names(archaeo.seq)))]
-
-# Load limma library
-library(limma)
-
-# Create protein universe
-universe <- unique(c(names(archaeo.seq), archaeo)) 
-
-# Create data.frame for venn diagram
-tmp <- data.frame(seq = rep(0, length(universe)), taxo = rep(0, length(universe)))
-rownames(tmp) <- universe
-for (i in 1:length(universe)){
-	if (universe[i] %in% names(archaeo.seq)) {
-		tmp[i, 1] <- 1
-	}
-	if (universe[i] %in% archaeo){
-		tmp[i, 2] <- 1
-	}
-}
-
-# Venn Diagram
-vennDiagram(tmp, main = "Archeao")
-
-
-##############################
-# Remove duplicates
-glomerom <- unique(as.character(glomerom.sanger[,2]))
-glomerom <- glomerom[glomerom != "YYY00000"]
-glomerom.seq <- glomerom.seq[names(glomerom.seq) != "YYY00000"]
-
-# Do they have the same lenght?
-length(glomerom) == length(names(glomerom.seq)) # TRUE
-
-names(glomerom.seq)[which(!(names(glomerom.seq) %in% glomerom))]
-glomerom[which(!(glomerom %in% names(glomerom.seq)))]
-
-# Load limma library
-library(limma)
-
-# Create protein universe
-universe <- unique(c(names(glomerom.seq), glomerom)) 
-
-# Create data.frame for venn diagram
-tmp <- data.frame(seq = rep(0, length(universe)), taxo = rep(0, length(universe)))
-rownames(tmp) <- universe
-for (i in 1:length(universe)){
-	if (universe[i] %in% names(glomerom.seq)) {
-		tmp[i, 1] <- 1
-	}
-	if (universe[i] %in% glomerom){
-		tmp[i, 2] <- 1
-	}
-}
-
-# Venn Diagram
-vennDiagram(tmp, main = "Glomerom")
 
