@@ -118,11 +118,13 @@ for (i in 1:length(universe)){
 vennDiagram(tmp, main = "ALL")
 
 ## TEST UNIT
-x1 <- as.character(sample(paraglom[paraglom$GenBank.accession.number != "YYY00000", 2], 10))
-x2 <- as.character(sample(archaeo[archaeo$GenBank.accession.number != "YYY00000", 2], 10))
-x3 <- as.character(sample(glomerom.sanger[glomerom.sanger$GenBank.accession.number != "YYY00000", 2], 10))
-
-all(all.ordered.seq[names(all.ordered.seq) %in% x1,] == glomerom.seq[names(glomerom.seq) %in% x1,])
-all(all.ordered.seq[names(all.ordered.seq) %in% x2,] == glomerom.seq[names(glomerom.seq) %in% x2,])
+n <- 100
+x1 <- as.character(sample(paraglom[paraglom$GenBank.accession.number != "YYY00000", 2], n))
+x2 <- as.character(sample(archaeo[archaeo$GenBank.accession.number != "YYY00000", 2], n))
+x3 <- as.character(sample(glomerom.sanger[glomerom.sanger$GenBank.accession.number != "YYY00000", 2], n))
+# PARAGLOM
+all(all.ordered.seq[names(all.ordered.seq) %in% x1,] == paraglom.seq[names(paraglom.seq) %in% x1,])
+# ARCHAEO
+all(all.ordered.seq[names(all.ordered.seq) %in% x2,] == archaeo.seq[names(archaeo.seq) %in% x2,])
+# GLOMEROM
 all(all.ordered.seq[names(all.ordered.seq) %in% x3,] == glomerom.seq[names(glomerom.seq) %in% x3,])
-
