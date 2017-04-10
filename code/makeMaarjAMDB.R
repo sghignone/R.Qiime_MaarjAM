@@ -1,4 +1,4 @@
-
+rm(list=ls())
 library("gdata")
 library("Biostrings")
 
@@ -9,13 +9,14 @@ library("Biostrings")
 ##PART ONE##
 #PREPARATION OD THE ID to TAXONOMY FILE
 #LOAD THE FILES 
-paraglom <- read.xls("data/raw/export_biogeo_Paraglomeromycetes.xls", sheet = 1, fileEncoding="latin1")
-archaeo <- read.xls("data/raw/export_biogeo_Archaeosporomycetes.xls", sheet = 1, fileEncoding="latin1")
-glomerom.sanger <- read.xls("data/raw/export_biogeo_Gomeromycetes_sanger.xls", sheet = 1, fileEncoding="latin1")
+paraglom <- read.xls("data/raw/export_biogeo_Paraglomeromycetes.xls", sheet = 1, fileEncoding="latin1", stringsAsFactors=FALSE)
+archaeo <- read.xls("data/raw/export_biogeo_Archaeosporomycetes.xls", sheet = 1, fileEncoding="latin1", stringsAsFactors=FALSE)
+glomerom.sanger <- read.xls("data/raw/export_biogeo_Gomeromycetes_sanger.xls", sheet = 1, fileEncoding="latin1", stringsAsFactors=FALSE)
+glomero.454 <- read.xls("data/raw/export_biogeo_Gomeromycetes_454.xls", sheet = 1, fileEncoding="latin1", stringsAsFactors=FALSE)
 
 #COMBINE THE DATASETS
 #all <- rbind(paraglom,archaeo) #For testing
-all <- rbind(paraglom,archaeo,glomerom.sanger) #For production
+all <- rbind(paraglom,archaeo,glomerom.sanger,glomero.454) #For production
 
 dim(all)
 #Check for duplicated entries and remove them
@@ -65,6 +66,7 @@ for (i in 1:nrow(all.ordered)){
     )
   }
 }
+dim(all.ordered_taxo)
 # Save table to file
 write.table(all.ordered_taxo, "results/all_ordered_taxo.txt", sep = "\t",
 			row.names = FALSE, col.names = FALSE, quote = FALSE)
@@ -76,7 +78,9 @@ paraglom.seq <- readBStringSet("data/raw/sequence_export_Paraglomeromycetes.txt"
 names(paraglom.seq) <- gsub("gb\\|", "", names(paraglom.seq))
 archaeo.seq <- readBStringSet("data/raw/sequence_export_Archaeosporomycetes.txt", "fasta") #778
 names(archaeo.seq) <- gsub("gb\\|", "", names(archaeo.seq))
-glomerom.seq <- readBStringSet("data/raw/sequence_export_Glomeromycetes_sanger.txt", "fasta") #23631 (454: 16985 / Sanger: 6646)
+#glomerom.seq <- readBStringSet("data/raw/sequence_export_Glomeromycetes_sanger.txt", "fasta") #23631 (454: 16985 / Sanger: 6646) #for testing
+#names(glomerom.seq) <- gsub("gb\\|", "", names(glomerom.seq))
+glomerom.seq <- readBStringSet("data/raw/sequence_export_Glomeromycetes.txt", "fasta") #23631 (454: 16985 / Sanger: 6646) for production
 names(glomerom.seq) <- gsub("gb\\|", "", names(glomerom.seq))
 #append
 #append(x, values, after=length(x)), x and values are XStringSet objects
