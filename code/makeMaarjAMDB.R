@@ -97,8 +97,7 @@ writeXStringSet(all.ordered.seq, "results/maarjAM.fasta", format="fasta")
 #EXTENDED PART TWO##
 #PREPARATION OF THE VIRTUAL TAXA FASTA FILE
 vt.seq <- readBStringSet("data/raw/vt_types_fasta_from_04-02-2015.txt", "fasta") # for production
-names(vt.seq) <- gsub("gb\\|", "", names(vt.seq))
-names(vt.seq) <- gsub("_", " ", names(vt.seq))
+names(vt.seq) <- gsub("gb\\|(.*)_(.*)", "\\1 \\2", names(vt.seq))
 #save
 writeXStringSet(vt.seq, "results/maarjAM.vt.fasta", format="fasta")
 
