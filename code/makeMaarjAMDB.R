@@ -100,7 +100,7 @@ vt.seq <- readBStringSet("data/raw/vt_types_fasta_from_04-02-2015.txt", "fasta")
 names(vt.seq) <- gsub("gb\\|", "", names(vt.seq))
 names(vt.seq) <- gsub("_", " ", names(vt.seq))
 #save
-writeXStringSet(all.ordered.seq, "results/maarjAM.vt.fasta", format="fasta")
+writeXStringSet(vt.seq, "results/maarjAM.vt.fasta", format="fasta")
 
 
 #####################
