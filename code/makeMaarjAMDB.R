@@ -69,7 +69,7 @@ for (i in 1:nrow(all.ordered)){
 }
 dim(all.ordered_taxo)
 # Save table to file
-write.table(all.ordered_taxo, "results/all_ordered_taxo.txt", sep = "\t",
+write.table(all.ordered_taxo, "results/maarjAM.id_to_taxonomy.txt", sep = "\t",
 			row.names = FALSE, col.names = FALSE, quote = FALSE)
 
 
@@ -92,7 +92,7 @@ all.seq <- all.seq[names(all.seq) != "YYY00000"]
 #order
 all.ordered.seq <- all.seq[order(as.character((names(all.seq))))]
 #save
-writeXStringSet(all.ordered.seq, "results/maarjAM.2017.fasta", format="fasta")
+writeXStringSet(all.ordered.seq, "results/maarjAM.fasta", format="fasta")
 
 #EXTENDED PART TWO##
 #PREPARATION OF THE VIRTUAL TAXA FASTA FILE
@@ -100,7 +100,7 @@ vt.seq <- readBStringSet("data/raw/vt_types_fasta_from_04-02-2015.txt", "fasta")
 names(vt.seq) <- gsub("gb\\|", "", names(vt.seq))
 names(vt.seq) <- gsub("_", " ", names(vt.seq))
 #save
-writeXStringSet(all.ordered.seq, "results/maarjAM.2017.fasta", format="fasta")
+writeXStringSet(all.ordered.seq, "results/maarjAM.vt.fasta", format="fasta")
 
 
 #####################
