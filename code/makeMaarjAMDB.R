@@ -5,7 +5,7 @@ library("Biostrings")
 #Archaeosporomycetes  778
 #Glomeromycetes       23631
 #Paraglomeromycetes   433
-#Virtual Taxa
+#Virtual Taxa         352 (04-02-2015)
 
 ##PART ONE##
 #PREPARATION OD THE ID to TAXONOMY FILE
