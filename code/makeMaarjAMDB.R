@@ -5,6 +5,7 @@ library("Biostrings")
 #Archaeosporomycetes  778
 #Glomeromycetes       23631
 #Paraglomeromycetes   433
+#Virtual Taxa
 
 ##PART ONE##
 #PREPARATION OD THE ID to TAXONOMY FILE
@@ -73,7 +74,7 @@ write.table(all.ordered_taxo, "results/all_ordered_taxo.txt", sep = "\t",
 
 
 ##PART TWO##
-#PREPARATION OD THE FASTA FILE
+#PREPARATION OF THE FASTA FILE
 paraglom.seq <- readBStringSet("data/raw/sequence_export_Paraglomeromycetes.txt","fasta") #433
 names(paraglom.seq) <- gsub("gb\\|", "", names(paraglom.seq))
 archaeo.seq <- readBStringSet("data/raw/sequence_export_Archaeosporomycetes.txt", "fasta") #778
@@ -90,9 +91,16 @@ all.seq <- append(paraglom.seq, c(archaeo.seq,glomerom.seq), after=length(paragl
 all.seq <- all.seq[names(all.seq) != "YYY00000"]
 #order
 all.ordered.seq <- all.seq[order(as.character((names(all.seq))))]
-#save (da aggiungere skip su YYY00000 - 788 values)
+#save
 writeXStringSet(all.ordered.seq, "results/maarjAM.2017.fasta", format="fasta")
 
+#EXTENDED PART TWO##
+#PREPARATION OF THE VIRTUAL TAXA FASTA FILE
+vt.seq <- readBStringSet("data/raw/vt_types_fasta_from_04-02-2015.txt", "fasta") # for production
+names(vt.seq) <- gsub("gb\\|", "", names(vt.seq))
+names(vt.seq) <- gsub("_", " ", names(vt.seq))
+#save
+writeXStringSet(all.ordered.seq, "results/maarjAM.2017.fasta", format="fasta")
 
 
 #####################
